@@ -17,6 +17,12 @@
   },
   "require": {
     "php": ">=7.0",
-    "lourenssystems/api-wrapper": "2.1"
-  }
+    "lourenssystems/api-wrapper": "dev-master"
+  },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/ag84ark/lourenssystems-api-wrapper"
+    }
+  ]
 }
