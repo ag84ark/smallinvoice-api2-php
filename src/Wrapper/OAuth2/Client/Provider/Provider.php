@@ -3,7 +3,9 @@
 
     namespace smallinvoice\api2\Wrapper\OAuth2\Client\Provider;
 
+    use GuzzleHttp\Exception\BadResponseException;
     use GuzzleHttp\Exception\ClientException;
+    use GuzzleHttp\Exception\GuzzleException;
     use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
     use League\OAuth2\Client\Token\AccessToken;
     use League\OAuth2\Client\Tool\BearerAuthorizationTrait;
@@ -97,23 +99,40 @@
             return [];
         }
 
+        ///**
+        // * @inheritdoc
+        // */
+        //public function getResponse(RequestInterface $request)
+        //{
+        //    $response = $this->sendRequest($request);
+        //
+        //    try {
+        //        $parsed = $this->parseResponse($response);
+        //        $this->checkResponse($response, $parsed);
+        //    } catch (IdentityProviderException $e) {
+        //        throw new ClientException($e->getMessage(), $request, $response);
+        //    } catch (\UnexpectedValueException $e) {
+        //        throw new ClientException($e->getMessage(), $request, $response);
+        //    }
+        //
+        //    return $parsed;
+        //}
+
         /**
-         * @inheritdoc
+         * Sends a request instance and returns a response instance.
+         *
+         * @param RequestInterface $request
+         * @return ResponseInterface
+         * @throws GuzzleException
          */
-        public function getResponse(RequestInterface $request)
+        protected function sendRequest(RequestInterface $request)
         {
-            $response = $this->sendRequest($request);
-
             try {
-                $parsed = $this->parseResponse($response);
-                $this->checkResponse($response, $parsed);
-            } catch (IdentityProviderException $e) {
-                throw new ClientException($e->getMessage(), $request, $response);
-            } catch (\UnexpectedValueException $e) {
-                throw new ClientException($e->getMessage(), $request, $response);
+                $response = $this->getHttpClient()->send($request);
+            } catch (BadResponseException $e) {
+                $response = $e->getResponse();
             }
-
-            return $parsed;
+            return $response;
         }
 
         /**
