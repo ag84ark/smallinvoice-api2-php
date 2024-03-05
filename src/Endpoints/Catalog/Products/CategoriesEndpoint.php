@@ -113,6 +113,9 @@
          */
         protected function replaceId($replacement, string $subject, string $placeholder = '{categoryId}'): string
         {
+            if(is_int($replacement)) {
+                return str_replace($placeholder, (string) $replacement, $subject);
+            }
             return str_replace($placeholder, $replacement, $subject);
         }
     }

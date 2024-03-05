@@ -113,6 +113,9 @@
          */
         private function replaceAccountId($replacement, string $subject, string $placeholder = '{accountId}'): string
         {
+            if(is_int($replacement)) {
+                return str_replace($placeholder, (string) $replacement, $subject);
+            }
             return str_replace($placeholder, $replacement, $subject);
         }
     }

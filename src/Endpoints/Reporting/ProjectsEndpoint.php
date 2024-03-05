@@ -132,6 +132,9 @@
          */
         protected function replaceId($replacement, string $subject, string $placeholder = '{projectId}'): string
         {
+            if(is_int($replacement)) {
+                return str_replace($placeholder, (string) $replacement, $subject);
+            }
             return str_replace($placeholder, $replacement, $subject);
         }
     }

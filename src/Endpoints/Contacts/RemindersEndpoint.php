@@ -113,6 +113,9 @@
          */
         private function replaceReminderId($replacement, string $subject, string $placeholder = '{reminderId}'): string
         {
+            if(is_int($replacement)) {
+                return str_replace($placeholder, (string) $replacement, $subject);
+            }
             return str_replace($placeholder, $replacement, $subject);
         }
     }

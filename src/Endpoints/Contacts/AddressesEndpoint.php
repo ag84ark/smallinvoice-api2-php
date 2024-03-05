@@ -211,7 +211,7 @@
          */
         private function replaceContactId(int $contactId, string $subject): string
         {
-            return str_replace('{contactId}', $contactId, $subject);
+            return str_replace('{contactId}', (string) $contactId, $subject);
         }
 
         /**
@@ -223,6 +223,9 @@
          */
         private function replaceAddressId($replacement, string $subject, string $placeholder = '{addressId}'): string
         {
+            if(is_int($replacement)) {
+                return str_replace($placeholder, (string) $replacement, $subject);
+            }
             return str_replace($placeholder, $replacement, $subject);
         }
 
